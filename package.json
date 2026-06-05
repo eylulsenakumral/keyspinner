@@ -1,0 +1,30 @@
+{
+  "name": "keyspinner",
+  "version": "1.0.0",
+  "description": "Auto-Rotate GitHub Secrets - Detect leaked credentials and create remediation PRs",
+  "main": "src/worker/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create keyspinner-db",
+    "db:migrate": "wrangler d1 execute keyspinner-db --file=./schema.sql",
+    "db:migrate-local": "wrangler d1 execute keyspinner-db --local --file=./schema.sql",
+    "db:console": "wrangler d1 console keyspinner-db",
+    "db:console-local": "wrangler d1 console keyspinner-db --local",
+    "test": "echo \"See .github/workflows/ for CI tests\" && exit 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["github", "security", "secrets", "detection", "cloudflare", "workers"],
+  "author": "Auto Company <dev@autocompany.dev>",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260605.1",
+    "esbuild": "^0.28.0",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.98.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "@octokit/webhooks": "^14.2.0"
+  }
+}
