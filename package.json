@@ -2,29 +2,81 @@
   "name": "keyspinner",
   "version": "1.0.0",
   "description": "Auto-Rotate GitHub Secrets - Detect leaked credentials and create remediation PRs",
-  "main": "src/worker/index.ts",
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "db:create": "wrangler d1 create keyspinner-db",
-    "db:migrate": "wrangler d1 execute keyspinner-db --file=./schema.sql",
-    "db:migrate-local": "wrangler d1 execute keyspinner-db --local --file=./schema.sql",
-    "db:console": "wrangler d1 console keyspinner-db",
-    "db:console-local": "wrangler d1 console keyspinner-db --local",
-    "test": "echo \"See .github/workflows/ for CI tests\" && exit 0",
-    "typecheck": "tsc --noEmit"
+  "author": "Tolga Berk <dev@autocompany.dev>",
+  "bin": {
+    "keyspinner": "./bin/run.js"
   },
-  "keywords": ["github", "security", "secrets", "detection", "cloudflare", "workers"],
-  "author": "Auto Company <dev@autocompany.dev>",
-  "license": "MIT",
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260605.1",
-    "esbuild": "^0.28.0",
-    "typescript": "^6.0.3",
-    "wrangler": "^4.98.0"
-  },
+  "bugs": "https://github.com/eylulsenakumral/keyspinner/issues",
   "dependencies": {
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5",
     "@octokit/rest": "^22.0.1",
-    "@octokit/webhooks": "^14.2.0"
+    "@types/inquirer": "^9.0.9",
+    "inquirer": "^14.0.2"
+  },
+  "devDependencies": {
+    "@esbuild-kit/esm-loader": "^2.6.5",
+    "@eslint/compat": "^1",
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^4",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^18",
+    "chai": "^4.5.0",
+    "eslint": "^9",
+    "eslint-config-oclif": "^6",
+    "eslint-config-prettier": "^10",
+    "esm-loader": "^0.1.0",
+    "mocha": "^11.7.6",
+    "oclif": "^4",
+    "shx": "^0.3.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.22.4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "./bin",
+    "./dist",
+    "./oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/eylulsenakumral/keyspinner",
+  "keywords": [
+    "oclif",
+    "github",
+    "security",
+    "secrets",
+    "detection",
+    "cli"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "type": "module",
+  "oclif": {
+    "bin": "keyspinner",
+    "dirname": "keyspinner",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {}
+  },
+  "repository": "eylulsenakumral/keyspinner",
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "prepack": "oclif manifest && oclif readme",
+    "test": "node --import tsx/esm node_modules/mocha/bin/_mocha test/**/*.test.ts",
+    "version": "oclif readme && git add README.md"
+  },
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   }
 }
